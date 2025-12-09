@@ -1,0 +1,297 @@
+# MCP Freelancer Server 🚀
+
+Professional MCP (Model Context Protocol) server for freelancer services automation.
+
+## 🎯 Features
+
+- **LinkedIn Profile Optimization** - AI-powered profile analysis and recommendations
+- **Voice Tone Analysis** - Identify and maintain consistent brand voice
+- **Psychological Triggers** - Discover what resonates with your audience
+- **Content Strategy** - Get personalized content ideas and posting plans
+- **Competitor Insights** - Learn from successful profiles in your niche
+- **Extensible Architecture** - Easy to add new services (Twitter, CV, Portfolio, etc.)
+
+## 🛠️ Tech Stack
+
+- **Node.js 20+** - Runtime environment
+- **TypeScript** - Type-safe development
+- **Express** - Web server framework
+- **Claude API** - AI-powered analysis (Anthropic)
+- **Google Sheets** - Optional database integration
+
+## 📦 Quick Start
+
+### 1. Clone or Download
+
+```bash
+# If using git
+git clone https://github.com/your-username/mcp-freelancer-server.git
+cd mcp-freelancer-server
+
+# Or download ZIP and extract
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Required variables:
+
+```env
+NODE_ENV=production
+PORT=10000
+CLAUDE_API_KEY=sk-ant-api03-your-key-here
+```
+
+### 4. Build & Run
+
+```bash
+# Build TypeScript
+npm run build
+
+# Start server
+npm start
+
+# Or for development with auto-reload
+npm run dev
+```
+
+### 5. Test
+
+Visit: `http://localhost:10000/health`
+
+You should see:
+
+```json
+{
+  "status": "ok",
+  "timestamp": "...",
+  "uptime": 123
+}
+```
+
+## 🚀 Deploy to Render.com (Free!)
+
+### Step 1: Push to GitHub
+
+1. Create a new GitHub repository
+2. Push your code:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/your-username/mcp-freelancer-server.git
+git push -u origin main
+```
+
+### Step 2: Deploy on Render
+
+1. Go to [render.com](https://render.com)
+2. Sign up with GitHub
+3. Click "New +" → "Web Service"
+4. Select your GitHub repo
+5. Configure:
+   - **Name**: mcp-freelancer
+   - **Environment**: Node
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+   - **Plan**: Free
+6. Add Environment Variables:
+   - `NODE_ENV=production`
+   - `PORT=10000`
+   - `CLAUDE_API_KEY=sk-ant-...`
+7. Click "Create Web Service"
+
+Your server will be live at: `https://mcp-freelancer.onrender.com`
+
+## 📡 API Endpoints
+
+### Health Check
+
+```http
+GET /health
+```
+
+Response:
+
+```json
+{
+  "status": "ok",
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "uptime": 3600,
+  "version": "1.0.0"
+}
+```
+
+### Main Analysis
+
+```http
+POST /api/analyze
+Content-Type: application/json
+
+{
+  "client_id": "123",
+  "service": "linkedin_optimization",
+  "data": {
+    "name": "Ahmed",
+    "email": "ahmed@example.com",
+    "linkedin_url": "linkedin.com/in/ahmed",
+    "goals": "Build authority, Get consulting clients",
+    "pain_points": "Low engagement, No clear positioning"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "report": {
+    "client_info": { ... },
+    "analysis": {
+      "voice_tone": "...",
+      "psychological_triggers": "...",
+      "content_strategy": "...",
+      "profile_optimization": "...",
+      "competitor_insights": "..."
+    },
+    "metadata": {
+      "timestamp": "...",
+      "processing_time_ms": 2500,
+      "model_used": "claude-3-5-haiku-20241022"
+    }
+  }
+}
+```
+
+### Test Claude Connection
+
+```http
+POST /api/test
+Content-Type: application/json
+
+{
+  "prompt": "Say hello!"
+}
+```
+
+## 🔧 MCP Tools Included
+
+1. **Voice Tone Analyzer** - Analyzes writing style and brand voice
+2. **Psychological Triggers Detector** - Identifies persuasion techniques
+3. **Content Ideas Generator** - Creates personalized content strategy
+4. **Profile Optimizer** - LinkedIn profile recommendations
+5. **Competitor Analyzer** - Insights from successful profiles
+
+## 💰 Cost Estimation
+
+### Render.com (Hosting)
+
+- **Free Tier**: $0/month
+- 750 hours/month (enough for 24/7 uptime)
+- Sleep after 15min inactivity (30-60s cold start)
+
+### Claude API (AI Processing)
+
+- **Model**: claude-3-5-haiku-20241022
+- **Cost**: ~$0.05 per analysis
+- **Expected**: $3-5/month for 50-100 clients
+
+**Total: $3-5/month** 🎉
+
+## 🔐 Security Best Practices
+
+- ✅ Never commit `.env` file
+- ✅ Use environment variables for secrets
+- ✅ Add authentication for production (optional)
+- ✅ Enable CORS only for trusted domains
+- ✅ Rate limit API endpoints if needed
+
+## 📊 Monitoring & Logs
+
+View logs in Render dashboard:
+
+1. Go to your service
+2. Click "Logs" tab
+3. Monitor real-time requests and errors
+
+## 🐛 Troubleshooting
+
+### Server won't start
+
+- Check `CLAUDE_API_KEY` is set correctly
+- Verify Node.js version >= 20.0.0
+- Run `npm install` again
+
+### Analysis returns errors
+
+- Verify Claude API key is valid
+- Check API quota/limits
+- Review Render logs for details
+
+### Cold start is slow
+
+- Normal for Render free tier (30-60s)
+- Server stays awake for 15min after request
+- Consider paid plan for instant responses
+
+## 📚 Extending the Server
+
+### Add a New Service
+
+1. Create new tool function in `src/index.ts`:
+
+```typescript
+async function analyzeTwitterProfile(data: any): Promise<string> {
+  const prompt = `Analyze Twitter profile for: ${data.twitter_url}`;
+  // ... Claude API call
+  return response;
+}
+```
+
+2. Add to `/api/analyze` endpoint:
+
+```typescript
+if (service === 'twitter_branding') {
+  const twitterAnalysis = await analyzeTwitterProfile(data);
+  // ... include in report
+}
+```
+
+3. Deploy - Render auto-deploys from GitHub!
+
+## 📞 Support
+
+- Check setup guide: `setup_guide.md`
+- Review implementation plan: `implementation_plan.md`
+- GitHub Issues: Create an issue for bugs/features
+
+## 📄 License
+
+MIT License - Feel free to use for your freelancer business!
+
+## 🎉 Credits
+
+Built with:
+
+- [Anthropic Claude](https://www.anthropic.com/) - AI Analysis
+- [Render.com](https://render.com/) - Free Hosting
+- [Express](https://expressjs.com/) - Web Framework
+- [TypeScript](https://www.typescriptlang.org/) - Type Safety
+
+---
+
+**Ready to automate your freelancer services? Deploy now!** 🚀
