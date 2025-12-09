@@ -6,21 +6,34 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
+console.log('[STARTUP] Loading environment variables...');
+console.log('[STARTUP] PORT:', process.env.PORT || '10000');
+console.log('[STARTUP] NODE_ENV:', process.env.NODE_ENV || 'not set');
+console.log('[STARTUP] CLAUDE_API_KEY:', process.env.CLAUDE_API_KEY ? 'Set (length: ' + process.env.CLAUDE_API_KEY.length + ')' : 'NOT SET ❌');
+
 const app = express();
 const PORT = process.env.PORT || 10000;
+
+console.log('[STARTUP] Express app created');
 
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
+console.log('[STARTUP] Middleware configured');
+
 // Initialize Claude
+console.log('[STARTUP] Initializing Claude API...');
 const anthropic = new Anthropic({
     apiKey: process.env.CLAUDE_API_KEY || '',
 });
+console.log('[STARTUP] Claude API initialized');
 
 // Configuration
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-haiku-20241022';
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
 const CLAUDE_MAX_TOKENS = parseInt(process.env.CLAUDE_MAX_TOKENS || '2000');
+
+console.log('[STARTUP] Using Claude Model:', CLAUDE_MODEL);
 
 // ============================================================================
 // HEALTH CHECK ENDPOINT
