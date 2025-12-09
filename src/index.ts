@@ -30,7 +30,7 @@ const anthropic = new Anthropic({
 console.log('[STARTUP] Claude API initialized');
 
 // Configuration
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-4.5-20250930';
 const CLAUDE_MAX_TOKENS = parseInt(process.env.CLAUDE_MAX_TOKENS || '2000');
 
 console.log('[STARTUP] Using Claude Model:', CLAUDE_MODEL);
